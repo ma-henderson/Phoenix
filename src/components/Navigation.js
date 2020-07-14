@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import { Link } from 'react-router-dom';
 import { Menu, Button } from 'antd';
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 import AppContext from '../AppContext';
@@ -16,13 +17,13 @@ const Logout = () => {
     setState({ current: e.key });
   };
 
-
-  const handleLog = () => {
-    const newLogged = !globalState.loggedIn
-    setGlobalState({
-      ...globalState, loggedIn: newLogged
-    })
+  const handleLogOut = () => {
+    // Delete Token
+    sessionStorage.clear()
+    // Change state
+    setGlobalState({...globalState, loggedIn: false})
   }
+
   return(
     <div>
       <Menu onClick={handleClick} selectedKeys={[state.current]} mode="horizontal">
@@ -47,14 +48,29 @@ const Logout = () => {
             Navigation Four - Link
           </a>
         </Menu.Item>
-        <Button 
-        type="default" 
-        style={{float: "right", margin: "8px 20px"}}
-        onClick={handleLog}
-        >
-          {globalState.loggedIn ? "Sign out" : "Log in"}
-        </Button>
-        <Button type="primary" style={{float: "right", margin: "8px 8px"}}>Register</Button>
+        {globalState.loggedIn == false ? 
+          <Link to="/user">
+          <Button 
+          type="default" style={{float: "right", margin: "8px 20px"}}>
+          Log in
+          </Button>
+          </Link>
+        :
+          
+          <Button 
+          type="default" style={{float: "right", margin: "8px 20px"}}
+          onClick={handleLogOut}
+          >
+          Log out
+          </Button>
+        }
+        {(globalState.loggedIn == false) && 
+          <Link to="/register">
+          <Button type="primary" style={{float: "right", margin: "8px 8px"}}>
+          Register
+          </Button>
+          </Link>
+        }
       </Menu>
     </div>
   )

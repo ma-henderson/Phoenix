@@ -11,7 +11,8 @@ import Profile from './components/Profile';
 function App() {
   
   const [ globalState, setGlobalState ] = useState({
-    loggedIn: false
+    loggedIn: sessionStorage.getItem('jwt') ? true : false,
+    username: sessionStorage.getItem('username')
   })  
 
   return (
@@ -21,7 +22,7 @@ function App() {
         <Navigation />
 
         <Route path ="/" exact component={Home} />
-        <Route path ="/login"  component={Login} />
+        <Route path ="/user"  component={Login} />
         <Route path ="/profile"  component={Profile} />
         
         </BrowserRouter>

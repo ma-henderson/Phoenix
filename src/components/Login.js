@@ -29,12 +29,13 @@ const Login = () => {
     )
     .then(
       (result) => {
-        // 2. IF Wrong data, send message
-        // 3.1 IF Correct, change state to logged in and store token(s)
-        
-        sessionStorage.setItem('jwt', result.token)
-        // 3.2 Send user to protected route Profile
-        
+        // 2.1 IF Correct, change state to logged in and store token(s)
+        sessionStorage.setItem('jwt', result.accesstoken)
+        sessionStorage.setItem('username', result.username)
+        setGlobalState({...globalState, loggedIn: true, username: result.username});
+        // 2.2 Send user to protected route Profile
+
+          // 3. IF Wrong data, send message
       }
     )
   }  
@@ -43,7 +44,7 @@ const Login = () => {
     console.log('Failed:', errorInfo);
   };
 
-  if (state.saved == false) {
+  if (globalState.loggedIn == false) {
     return(
       <Space direction="vertical">
         
@@ -80,7 +81,10 @@ const Login = () => {
     )
   } else {
     return(
-      <h3>Logging you in</h3>
+      <Space direction="vertical">
+        <h2>You're already logged in, {globalState.username}!</h2>
+        <h3>go here to see your profile</h3>
+      </Space>
     )
 
   }
