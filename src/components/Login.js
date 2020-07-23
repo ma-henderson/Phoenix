@@ -2,10 +2,11 @@ import React, {useContext, useState} from 'react'
 import AppContext from '../AppContext';
 import { Form, Input, Space, Row, Col, Button } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { Redirect } from "react-router-dom";
 
 const Login = () => {
   //Setting up for Form to disappear when Submitted
-  const [state, setState] = useState({saved: false})
+  const [state, setState] = useState({saved: false, redirect: '/profile/'})
   const [globalState, setGlobalState] = useContext(AppContext);
 
   //Styling from AntD
@@ -32,9 +33,9 @@ const Login = () => {
         // 2.1 IF Correct, change state to logged in and store token(s)
         sessionStorage.setItem('jwt', result.accesstoken)
         sessionStorage.setItem('username', result.username)
-        setGlobalState({...globalState, loggedIn: true, username: result.username});
+        setGlobalState({...globalState, loggedIn: true, userdata: result});
         // 2.2 Send user to protected route Profile
-
+        
           // 3. IF Wrong data, send message
       }
     )
@@ -82,6 +83,7 @@ const Login = () => {
   } else {
     return(
       <Space direction="vertical">
+        <Redirect to={state.redirect}/>
         <h2>You're already logged in, {globalState.username}!</h2>
         <h3>go here to see your profile</h3>
       </Space>

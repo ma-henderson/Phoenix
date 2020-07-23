@@ -1,16 +1,22 @@
-import React, { useState, useContext } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react'
+import { Link, Redirect } from 'react-router-dom';
 import { Menu, Button } from 'antd';
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 import AppContext from '../AppContext';
 const { SubMenu } = Menu;
 
-const Logout = () => {
+const Navigation = () => {
   const [ state, setState ] = useState({
     current: 'mail',
+    redirect: null
   })
 
   const [ globalState, setGlobalState ] = useContext(AppContext);
+
+  // redirect upon logout 
+  useEffect(()=>{
+    globalState.loggedIn ? state.redirect = null : state.redirect = '/'
+  }, [globalState.loggedIn])
 
   const handleClick = e => {
     console.log('click ', e);
@@ -26,6 +32,7 @@ const Logout = () => {
 
   return(
     <div>
+      {!globalState.loggedIn && <Redirect to={state.redirect}/>} 
       <Menu onClick={handleClick} selectedKeys={[state.current]} mode="horizontal">
         <Menu.Item key="mail" icon={<MailOutlined />}>
           Home
@@ -75,4 +82,4 @@ const Logout = () => {
     </div>
   )
 }
-export default Logout
+export default Navigation

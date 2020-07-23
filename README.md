@@ -1,5 +1,11 @@
 ## To Do's:
-[ ] * test
+...[DONE] Login Page -> have user be redirected to protected route upon successful login
+...Login Page -> Upon loading check if user already has VALID jwt and redirect if true, if false clear jwt
+...Login Page -> add link/anchor to redirect user to protected route if logged in (as a fallback)
+...Profile Page -> Build page component to have following elements: prof picture, username, initial weight, goal weight
+...Goal Component -> Build Model (parameter, date, )
+...isAuth -> find way to redirect user to login if wrong token/information (implement refreshtoken)
+...Understand why Session Storage is used (for tab) rather than local? Maybe that's why weibenfalk used cookies for Refresh tokens. Where does Amazon store your cart data? backend? frontend?
 
 ## Available Scripts
 

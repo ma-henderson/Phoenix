@@ -1,12 +1,15 @@
 import React, { useEffect, useContext, useState } from 'react'
 import AppContext from '../AppContext';
+import { Avatar } from 'antd';
 
 const Profile = () => {
 
   const [globalState, setGlobalState] = useContext(AppContext)
-  const [state, setState] = useState({})
+  const [state, setState] = useState({loaded: false})
 
-  globalState.loggedIn && fetch(`${process.env.REACT_APP_BACKEND_URL}profile`,
+
+
+  globalState.loggedIn && !state.loaded && fetch(`${process.env.REACT_APP_BACKEND_URL}profile`,
     {
       method: 'POST',
       headers: {
@@ -17,15 +20,22 @@ const Profile = () => {
   .then(
     (result)=>{
       // use DB info to create profile page (name, picture, goals, etc)
-      setState({...state, username: result.username})
+      setState({...state, loaded: true, result: result})
+      console.log(state);
     }
   )
 
-  if (globalState.loggedIn) {
+  if (state.loaded) {
     return(
       <div>
-      <h1>Welcome back,  </h1>
+      <h1>Welcome back, {state.result.username}</h1>
       </div>
+    )
+  } else {
+    return(
+    <div>
+      <h1>Loading...</h1>
+    </div>
     )
   }
 }
