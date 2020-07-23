@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import './App.css';
 import AppContext from './AppContext';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { Row, Col } from 'antd';
 
-import Navigation from './components/Navigation';
-import Home from './components/Home';
-import Login from './components/Login';
-import Profile from './components/Profile';
+import Navigation from './Pages/Navigation';
+import Home from './Pages/Home';
+import Login from './Pages/Login';
+import Profile from './Pages/Profile';
 
 function App() {
   
@@ -20,11 +21,13 @@ function App() {
       <div className="App">
         <BrowserRouter>
         <Navigation />
-
-        <Route path ="/" exact component={Home} />
-        <Route path ="/user"  component={Login} />
-        <Route path ="/profile"  component={Profile} />
-        
+        <Row justify="center">
+        <Col>
+          <Route path ="/" exact component={Home} />
+          <Route path ="/user"  component={Login} />
+          <Route path ="/profile"  component={Profile} />
+        </Col>
+        </Row>  
         </BrowserRouter>
       </div>
     </AppContext.Provider>

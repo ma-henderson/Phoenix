@@ -38,7 +38,7 @@ const Navigation = () => {
           Home
         </Menu.Item>
         <Menu.Item key="app" disabled icon={<AppstoreOutlined />}>
-          Protected stuff
+          Profile
         </Menu.Item>
         <SubMenu icon={<SettingOutlined />} title="Navigation Three - Submenu">
           <Menu.ItemGroup title="Item 1">
