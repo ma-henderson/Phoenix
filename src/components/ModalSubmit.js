@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'antd';
+import FormDyanmicFields from './FormDynamicFields';
 
-var ModalSubmit = (props) => {
+const ModalSubmit = (props) => {
   
   const [state, setState] = useState({
-    ModalText: 'Content of the modal',
+    ModalText: 'How will your goals? Add the fields of interest below to give your aim some structure!',
     visible: false,
     confirmLoading: false,
   })
@@ -41,21 +42,28 @@ var ModalSubmit = (props) => {
     });
   };
 
+  const handleForm = (info) => {
+    console.log("success:", info)
+  }
+
   const { visible, confirmLoading, ModalText } = state;
 
   return(
     <div>
-      <Button type="primary" onClick={showModal}>
-        Open Modal with async logic
+      <Button type="primary" onClick={showModal} style={{ width: props.width }}>
+        New Goal
       </Button>
       <Modal
-        title="Title"
+        title="New Goal Setup"
         visible={visible}
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
         <p>{ModalText}</p>
+
+      <FormDyanmicFields handleForm={handleForm} visible={state.visible}/>
+
       </Modal>
     </div>
   );

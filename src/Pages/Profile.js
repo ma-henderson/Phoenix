@@ -1,8 +1,8 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import AppContext from '../AppContext';
 import { Row, Col, Card } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
-import ModalSubmit from '../components/ModalSubmit.js';
+import { ModalForm, CollectionsPage } from '../components/ModalForm.js';
 const { Meta } = Card;
 
 const Profile = () => {
@@ -24,12 +24,15 @@ const Profile = () => {
       setState({...state, loaded: true, result: result})
     }
   )
+  const cardWidth = 200;
 
   if (state.loaded) {
     return(
       <div>
+        <Row justify="center" gutter={[0, 16]} style={{marginTop: 8}}>
+        <Col>
         <Card
-          style={{ width: 200 }}
+          style={{ width: cardWidth }}
           cover={
             <img
               alt="example"
@@ -47,9 +50,12 @@ const Profile = () => {
             description={state.result.email}
           />
         </Card>
+        </Col>
+        </Row>
         
-        <ModalSubmit />
-
+        <Row justify="center" gutter={[16, 16]}  style={{marginTop: 8}}>
+          <CollectionsPage width={cardWidth}/>
+        </Row>
       </div>
     )
   } else {

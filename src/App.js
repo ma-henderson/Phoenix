@@ -21,13 +21,11 @@ function App() {
       <div className="App">
         <BrowserRouter>
         <Navigation />
-        <Row justify="center">
-        <Col>
+
           <Route path ="/" exact component={Home} />
           <Route path ="/user"  component={Login} />
           <Route path ="/profile"  component={Profile} />
-        </Col>
-        </Row>  
+
         </BrowserRouter>
       </div>
     </AppContext.Provider>
