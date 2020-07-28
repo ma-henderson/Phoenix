@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form, Input, Radio } from 'antd';
+import { Button, Modal, Form, Input, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined, PlusCircleOutlined } from '@ant-design/icons';
 
 // Origin of this is a mix of 2 components: Data-input (Add-item) and Form (with Modal)
-const ModalForm = ({ visible, onCreate, onCancel }) => { // factored props from modal button
+const ModalFormTwo = ({ visible, onCreate, onCancel }) => { // factored props from modal button
   const [form] = Form.useForm();
 
   const formItemLayout = {
@@ -13,13 +13,17 @@ const ModalForm = ({ visible, onCreate, onCancel }) => { // factored props from 
     },
     wrapperCol: {
       xs: { span: 24 },
-      sm: { span: 20 },
+      sm: { span: 24 },
     },
-  };
-  const formItemLayoutWithOutLabel = {
+  }
+  const formItemLayout2 = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 7 },
+    },
     wrapperCol: {
-      xs: { span: 24, offset: 0 },
-      sm: { span: 20, offset: 4 },
+      xs: { span: 20 },
+      sm: { span: 23, offset: 1 },
     },
   };
   return (
@@ -53,63 +57,68 @@ const ModalForm = ({ visible, onCreate, onCancel }) => { // factored props from 
           });
       }}
     >
-      <Form name="form_in_modal" form={form} {...formItemLayoutWithOutLabel}>
+      <Form name="form_in_modal" form={form} {...formItemLayout2}>
       <Form.Item
         {...formItemLayout}
         label="Title"
         name="goalTitle"
         rules={[{ required: true, message: 'You need to give your new goal a name!' }]}
+        style={{marginBottom: '6px'}}
       >
         <Input placeholder="(ie Weight loss, Weekly readings, New car savings)" />
       </Form.Item>
+      <hr style={{height:'0.5px', borderWidth:'0', backgroundColor: 'gainsboro'}}/>
       <Form.List name="names">
         {(fields, { add, remove }) => {
           return (
             <div>
-              {fields.map((field, index) => (
-                <Form.Item
-                  {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                  label={index === 0 ? 'Input type' : ''}
-                  required={false}
-                  key={field.key}
-                >
+            {fields.map((field, index) => (
+              <div style={{display: 'flex'}}>
                   <Form.Item
-                    {...field}
-                    validateTrigger={['onChange', 'onBlur']}
-                    rules={[
-                      {
-                        required: true,
-                        whitespace: true,
-                        message: "Please provide a data input name or delete this field.",
-                      },
-                    ]}
-                    noStyle
+                    {...formItemLayout2}
+                    label={`Input ${index+1}`}
+                    name={[field.name, 'data']}
+                    fieldKey={[field.fieldKey, 'data']}
+                    rules={[{ required: false, message: 'Missing data type!' }]}
                   >
-                    <Input placeholder="(ie Distance, time, pages, value)" style={{ width: '85%' }} />
+                    <Input placeholder="Data name" />
+                  </Form.Item>
+                  <Form.Item
+                    {...formItemLayout2}
+                    {...field}
+                    name={[field.name, 'goal']}
+                    fieldKey={[field.fieldKey, 'goal']}
+                    rules={[{ required: true, message: 'Don\'t forget your goal' }]}
+                  > 
+                    <Input placeholder="Goal value" />
                   </Form.Item>
                   {fields.length > 1 ? (
                     <MinusCircleOutlined
                       className="dynamic-delete-button"
                       // Take a look at Emotion.sh for css within jsx (ie :hover)
-                      style={{ margin: '0 8px', position: 'absolute', right: 0 }}
+                      style={{ margin: '0 8px' }}
                       onClick={() => {
                         remove(field.name);
                       }}
                     />
                   ) : null}
-                </Form.Item>
+                  </div>
               ))}
+              {fields.length < 5 ? 
               <Form.Item>
                 <Button
                   type="dashed"
                   onClick={() => {
                     add();
                   }}
-                  style={{ width: '85%' }}
+                  style={{ width: '100%' }}
                 >
                   <PlusOutlined /> Add field
                 </Button>
               </Form.Item>
+              :
+              null
+              }
             </div>
           );
         }}
@@ -119,7 +128,7 @@ const ModalForm = ({ visible, onCreate, onCancel }) => { // factored props from 
   );
 };
 
-const CollectionsPage = (props) => {
+const CollectionsPg = (props) => {
   const [visible, setVisible] = useState(false);
 
   const onCreate = values => {
@@ -139,7 +148,7 @@ const CollectionsPage = (props) => {
       >
         Track a new Goal!
       </Button>
-      <ModalForm
+      <ModalFormTwo
         visible={visible}
         onCreate={onCreate}
         onCancel={() => {
@@ -151,6 +160,6 @@ const CollectionsPage = (props) => {
 };
 
 export {
-  CollectionsPage,
-  ModalForm,
+  CollectionsPg,
+  ModalFormTwo,
 }

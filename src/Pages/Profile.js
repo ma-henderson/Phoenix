@@ -3,6 +3,7 @@ import AppContext from '../AppContext';
 import { Row, Col, Card } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { ModalForm, CollectionsPage } from '../components/ModalForm.js';
+import { ModalFormTwo, CollectionsPg } from '../components/ModalFormTwo.js';
 const { Meta } = Card;
 
 const Profile = () => {
@@ -55,6 +56,9 @@ const Profile = () => {
         
         <Row justify="center" gutter={[16, 16]}  style={{marginTop: 8}}>
           <CollectionsPage width={cardWidth}/>
+        </Row>
+        <Row justify="center" gutter={[16, 16]}  style={{marginTop: 8}}>
+          <CollectionsPg width={cardWidth}/>
         </Row>
       </div>
     )
