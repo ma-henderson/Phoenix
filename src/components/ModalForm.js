@@ -29,17 +29,17 @@ const ModalForm = ({ visible, onCreate, onCancel }) => { // factored props from 
       okText="Create"
       cancelText="Cancel"
       onCancel={onCancel}
-      onOk={() => {
+      onOk={() => { // Get "async functionality" from ModalSubmit?
         form
           .validateFields()
           .then(values => {
-            fetch(`${REACT_APP_BACKEND_URL}/goal/create`, { //make sure to create model
-              method: 'POST',
-              headers: {
-                'content-type': 'application/json'
-              },
-              body: JSON.stringify(values)
-            });
+            // fetch(`${process.env.REACT_APP_BACKEND_URL}/goal/create`, { //make sure to create model
+            //   method: 'POST',
+            //   headers: {
+            //     'content-type': 'application/json'
+            //   },
+            //   body: JSON.stringify(values)
+            // });
 
             form.resetFields(); // Change this to fetch
             onCreate(values); 
@@ -50,6 +50,14 @@ const ModalForm = ({ visible, onCreate, onCancel }) => { // factored props from 
       }}
     >
       <Form name="form_in_modal" form={form} {...formItemLayoutWithOutLabel}>
+      <Form.Item
+        {...formItemLayout}
+        label="Title"
+        name="goalTitle"
+        rules={[{ required: true, message: 'You need to give your new goal a name!' }]}
+      >
+        <Input placeholder="(ie Weight loss, Weekly readings, New car savings)" />
+      </Form.Item>
       <Form.List name="names">
         {(fields, { add, remove }) => {
           return (
@@ -73,12 +81,13 @@ const ModalForm = ({ visible, onCreate, onCancel }) => { // factored props from 
                     ]}
                     noStyle
                   >
-                    <Input placeholder="data-input name" style={{ width: '85%' }} />
+                    <Input placeholder="(ie Distance, time, pages, value)" style={{ width: '85%' }} />
                   </Form.Item>
                   {fields.length > 1 ? (
                     <MinusCircleOutlined
                       className="dynamic-delete-button"
-                      style={{ margin: '0 8px' }}
+                      // Take a look at Emotion.sh for css within jsx (ie :hover)
+                      style={{ margin: '0 8px', position: 'absolute', right: 0 }}
                       onClick={() => {
                         remove(field.name);
                       }}
