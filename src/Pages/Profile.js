@@ -53,10 +53,6 @@ const Profile = () => {
         </Card>
         </Col>
         </Row>
-        
-        <Row justify="center" gutter={[16, 16]}  style={{marginTop: 8}}>
-          <CollectionsPage width={cardWidth}/>
-        </Row>
         <Row justify="center" gutter={[16, 16]}  style={{marginTop: 8}}>
           <CollectionsPg width={cardWidth}/>
         </Row>

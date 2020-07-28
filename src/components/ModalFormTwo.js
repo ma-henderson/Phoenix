@@ -40,15 +40,29 @@ const ModalFormTwo = ({ visible, onCreate, onCancel }) => { // factored props fr
             // Manipulate values so each input is a record
             // If it's a record it will be filled in simultaneously (x, y, z, ...)
             // whatever is in values.names, make a seperate property
-
-            // fetch(`${process.env.REACT_APP_BACKEND_URL}/goal/create`, { //make sure to create model
-            //   method: 'POST',
-            //   headers: {
-            //     'content-type': 'application/json'
-            //   },
-            //   body: JSON.stringify(values)
-            // });
-
+            const goalStructured = {
+              title: values.goalTitle,
+              input: {},
+              goal: {},
+              };
+            values.names.forEach(pair=>{
+              const name = pair['data']
+              goalStructured.input[name] = []
+              goalStructured.goal[name] = pair['goal']
+            })
+            fetch(`${process.env.REACT_APP_BACKEND_URL}goal/create`, { //make sure to create model
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${sessionStorage.getItem('jwt')}`
+              },
+              body: JSON.stringify({
+                title: goalStructured.title,
+                input: goalStructured.input,
+                goal: goalStructured.goal
+              })
+            })
+            
             form.resetFields(); // Apply this to onCancel as well?
             onCreate(values); 
           })
@@ -132,7 +146,6 @@ const CollectionsPg = (props) => {
   const [visible, setVisible] = useState(false);
 
   const onCreate = values => {
-    console.log('Received values of form: ', values);
     setVisible(false);
   };
 
